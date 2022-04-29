@@ -17,77 +17,77 @@ Current version: 2.0.0
 ## Examples:
 
 ```
-         cromshell-alpha submit workflow.wdl inputs.json options.json dependencies.zip
-         cromshell-alpha status
-         cromshell-alpha -t 20 metadata
-         cromshell-alpha logs -2
+$ cromshell-alpha submit workflow.wdl inputs.json options.json dependencies.zip
+$ cromshell-alpha status
+$ cromshell-alpha -t 20 metadata
+$ cromshell-alpha logs -2
 ```
 
 ## Supported Flags:
-  * `-t` `TIMEOUT`
+  * `-t TIMEOUT`
     * Set the curl connect timeout to `TIMEOUT` seconds.
-    * Also sets the curl max timeout to `2*TIMEOUT` seconds.
+    * Also sets the curl max timeout to `2 * TIMEOUT` seconds.
     * `TIMEOUT` must be an integer.
 
 ## Supported Subcommands:
 
   
    ####  Start/Stop workflows
-   * `submit` `[-w]` *`<wdl>`* *`<inputs_json>`* `[options_json]` `[included_wdl_zip_file]`
+   * `submit [-w] <wdl> <inputs_json> [options_json] [included_wdl_zip_file]`
      * Submit a new workflow.
      * Will automatically validate the WDL and JSON file if `womtool` is in your path.
        * To add `womtool` to your path, install `cromwell` with brew:
          * `brew install cromwell`
-     * *`-w`*                     Wait for workflow to transition from 'Submitted' to some other status
+     * `-w`                     Wait for workflow to transition from 'Submitted' to some other status
                                   before ${SCRIPTNAME} exits
-     * *`included_wdl_zip_file`*  Zip file containing any WDL files included in the input WDL
-   * `abort` *`[workflow-id] [[workflow-id]...]`*                   
+     * `included_wdl_zip_file`  Zip file containing any WDL files included in the input WDL
+   * `abort [workflow-id] [[workflow-id]...]`                   
      * Abort a running workflow.
    #### Workflow information:
-   * `alias` *`<workflow-id>` `<alias_name>`* 
+   * `alias <workflow-id> <alias_name>`
      * Label the given workflow ID with the given alias_name.  Aliases can be used in place of workflow IDs to reference jobs.
      * Remove alias by passing empty double quotes as `alias_name` (e.g. `alias <workflow-id> ""`)
    #### Query workflow status:
-   * `status` *`[workflow-id] [[workflow-id]...]`*                   
+   * `status [workflow-id] [[workflow-id]...]`                   
      * Check the status of a workflow.
-   * `metadata` *`[workflow-id] [[workflow-id]...]`*                
+   * `metadata [workflow-id] [[workflow-id]...]`                
      * Get the full metadata of a workflow.
-   * `slim-metadata` *`[workflow-id] [[workflow-id]...]`*           
+   * `slim-metadata [workflow-id] [[workflow-id]...]`
      * Get a subset of the metadata from a workflow.
-   * `execution-status-count`, `counts` *`[-p] [-x] [workflow-id] [[workflow-id]...]`*   
+   * `<execution-status-count | counts> [-p] [-x] [workflow-id] [[workflow-id]...]`   
      * Get the summarized status of all jobs in the workflow.
      * `-p` prints a pretty summary of the execution status instead of JSON
      * `-x` expands sub-workflows for more detailed summarization
-   * `timing` *`[workflow-id] [[workflow-id]...]`*                  
+   * `timing [workflow-id] [[workflow-id]...]`                  
      * Open the timing diagram in a browser.
   
    #### Logs
-   * `logs` *`[workflow-id] [[workflow-id]...]`*                     
+   * `logs [workflow-id] [[workflow-id]...]`                    
      * List the log files produced by a workflow.
-   * `fetch-logs` *`[workflow-id] [[workflow-id]...]`*               
+   * `fetch-logs [workflow-id] [[workflow-id]...]`
      * Download all logs produced by a workflow.
   
    #### Job Outputs
-   * `list-outputs` *`[workflow-id] [[workflow-id]...]`*           
+   * `list-outputs [workflow-id] [[workflow-id]...]`           
      *  List all output files produced by a workflow.
-   * `fetch-all` *`[workflow-id] [[workflow-id]...]`*             
+   * `fetch-all [workflow-id] [[workflow-id]...]`             
      * Download all output files produced by a workflow.
    
    ####  Get email notification on job completion
-   * `notify` *`[workflow-id]` `[daemon-server]` `email` `[cromwell-server]`*
-     * *`daemon-server`*  server to run the notification daemon on
+   * `notify [workflow-id] [daemon-server] email [cromwell-server]`
+     * `daemon-server`  server to run the notification daemon on
 
    #### Display a list jobs submitted through cromshell
-   * `list` *`[-c]` `[-u]`*                                            
-     * *`-c`*    Color the output by completion status
-     * *`-u`*    Check completion status of all unfinished jobs
+   * `list [-c] [-u]`                                            
+     * `-c`    Color the output by completion status
+     * `-u`    Check completion status of all unfinished jobs
 
    #### Clean up local cached list
-   * `cleanup` *`[-s STATUS]`*    
+   * `cleanup [-s STATUS]`    
      * Remove completed jobs from local list.
        Will remove all jobs from the local list that are in a completed state,
        where a completed state is one of: `Succeeded`, `Failed`, `Aborted`
-     * *`-s STATUS`*     If provided, will only remove jobs with the given `STATUS` from the local list.
+     * `-s STATUS`     If provided, will only remove jobs with the given `STATUS` from the local list.
   
 ## Features:
  * Running `submit` will create a new folder in the `~/.cromshell/${CROMWELL_URL}/` directory named with the cromwell job id of the newly submitted job.  
